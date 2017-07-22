@@ -16,8 +16,8 @@ public class KafkaProducer {
 
     public static void main(String[] args) throws Exception {
 
-        Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", BOOTSTRAP_SERVER);
+        Properties props = new Properties();
+        props.setProperty("bootstrap.servers", BOOTSTRAP_SERVER);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
@@ -30,7 +30,8 @@ public class KafkaProducer {
         DataStream<String> stream = env.fromElements(sentences);
 
         FlinkKafkaProducer010.FlinkKafkaProducer010Configuration myProducerConfig = FlinkKafkaProducer010
-                .writeToKafkaWithTimestamps(stream, TOPIC, new SimpleStringSchema(), properties);
+                .writeToKafkaWithTimestamps(
+                        stream, TOPIC, new SimpleStringSchema(), props);
 
         myProducerConfig.setLogFailuresOnly(false);
         myProducerConfig.setFlushOnCheckpoint(true);
